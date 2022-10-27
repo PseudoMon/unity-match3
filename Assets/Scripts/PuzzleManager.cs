@@ -8,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
 {
     public GameObject[] blockPrefabs;
     private Grid grid;
+    private GridSlotMachine gridSlotMachine;
     
     // Grid goes from -5 to 5
 
@@ -18,32 +19,51 @@ public class PuzzleManager : MonoBehaviour
     {
         grid = GetComponent<Grid>();
         SetBottomGrids();
-
+        gridSlotMachine = new GridSlotMachine(10, 10, -5, -5);
 
         for (int y = 8; y < 18; y++)
         {
-            SpawnRow(y);
+            SpawnRow();
         }
     }
 
-    void SpawnRow(int y)
+    void SpawnRow()
     {
         // Spawn a whole row of blocks with randomized colours
         for (int x = -5; x < 5; x++)
         {
-            GameObject blockPrefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
-            GameObject newBlock = Instantiate(blockPrefab, transform);
+            GridSlot slotToFill = gridSlotMachine.GetBottommostEmptySlot(x);
+            SpawnBlock(slotToFill, slotToFill.GetVector3Int() + new Vector3Int(0, 10, 0));
 
-            Vector3Int gridOrigin = new Vector3Int(x, y, 0);
-            Vector3 gridOriginPos = grid.GetCellCenterLocal(gridOrigin);
-            Debug.Log(gridOriginPos);
+            // GameObject blockPrefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
+            // GameObject newBlock = Instantiate(blockPrefab, transform);
 
-            newBlock.AddComponent<BlockBehavior>();
-            newBlock.GetComponent<BlockBehavior>().bottomGrids = bottomGrids;
+            // Vector3Int gridOrigin = new Vector3Int(x, y, 0);
+            // Vector3 gridOriginPos = grid.GetCellCenterLocal(gridOrigin);
+            // Debug.Log(gridOriginPos);
+
+            // newBlock.AddComponent<BlockBehavior>();
+            // newBlock.GetComponent<BlockBehavior>().bottomGrids = bottomGrids;
             
-            newBlock.transform.localPosition = gridOriginPos;
-            newBlock.GetComponent<Rigidbody2D>().WakeUp();
+            // newBlock.transform.localPosition = gridOriginPos;
+            // newBlock.GetComponent<Rigidbody2D>().WakeUp();
         }
+    }
+
+    void SpawnBlock(GridSlot targetGridSlot, Vector3Int spawnOrigin)
+    {
+        GameObject blockPrefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
+        // transform here is the Grid's transform, set as new block's parent
+        GameObject newBlock = Instantiate(blockPrefab, transform);
+
+        Vector3 spawnOriginPos = grid.GetCellCenterLocal(spawnOrigin);
+        newBlock.transform.localPosition = spawnOriginPos;
+
+        newBlock.AddComponent<BlockBehavior>();
+        targetGridSlot.MakeObjectElsewhereFallHere(newBlock);
+
+        newBlock.GetComponent<Rigidbody2D>().WakeUp();
+
     }
 
     void SetBottomGrids()   
@@ -67,13 +87,11 @@ public class BlockBehavior : MonoBehaviour
 {
     private Grid grid;
     private Rigidbody2D rb;
-    
-    public List<Vector3Int> bottomGrids;
 
     private Vector3 stopPosition;
     private bool stopPositionFound;
 
-    void Start()
+    void Awake()
     {
         grid = transform.parent.GetComponent<Grid>();
         rb = transform.GetComponent<Rigidbody2D>();
@@ -84,10 +102,10 @@ public class BlockBehavior : MonoBehaviour
         if (!rb.isKinematic) {
             // If the block is still affected by gravity i.e. falling
             // Fall to place
-            if (!stopPositionFound)
-            {
-                CheckIfFallPosition();
-            }
+            // if (!stopPositionFound)
+            // {
+            //     CheckIfFallPosition();
+            // }
             
             if (stopPositionFound)
             {
@@ -97,26 +115,26 @@ public class BlockBehavior : MonoBehaviour
 
     }
 
-    void CheckIfFallPosition()
-    {
-        // Check if the cell we're at is where we're supposed to stop
-        Vector3Int currentCell = grid.LocalToCell(transform.localPosition);
-        int stopCellId = bottomGrids.FindIndex(
-            cell => Vector3Int.Equals(currentCell, cell)
-        );
-        bool stopHere = stopCellId != -1;
+    // void CheckIfFallPosition()
+    // {
+    //     // Check if the cell we're at is where we're supposed to stop
+    //     Vector3Int currentCell = grid.LocalToCell(transform.localPosition);
+    //     int stopCellId = bottomGrids.FindIndex(
+    //         cell => Vector3Int.Equals(currentCell, cell)
+    //     );
+    //     bool stopHere = stopCellId != -1;
 
-        if (stopHere)
-        {
-            stopPosition = grid.GetCellCenterWorld(currentCell);
-            bottomGrids[stopCellId] += Vector3Int.up;
-            stopPositionFound = true;
-        }
-    }
+    //     if (stopHere)
+    //     {
+    //         stopPosition = grid.GetCellCenterWorld(currentCell);
+    //         bottomGrids[stopCellId] += Vector3Int.up;
+    //         stopPositionFound = true;
+    //     }
+    // }
 
     void StopAtFallPosition()
     {
-        if (Vector2.Distance(rb.position, stopPosition) <= 1)
+        if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
         {
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
@@ -127,7 +145,7 @@ public class BlockBehavior : MonoBehaviour
     public void StartFallingTo(Vector3Int target)
     {
         stopPositionFound = true;
-        stopPosition = target;
+        stopPosition = grid.GetCellCenterWorld(target); 
         rb.isKinematic = false;
     }
 }
@@ -156,6 +174,10 @@ public class GridSlot
         private set { _objectInside = value; }
     }
 
+    public Vector3Int GetVector3Int() {
+        return new Vector3Int(x, y, 0);
+    }
+
     public void FillWith(GameObject thing)
     {
         isFilled = true;
@@ -167,9 +189,18 @@ public class GridSlot
         isFilled = false;
     }
 
-    public void SetObjectToFallTo(Vector3Int targetPos)
+    public void MakeObjectElsewhereFallHere(GameObject thing)
+    {
+        FillWith(thing);
+        var blockBehavior = thing.GetComponent<BlockBehavior>();
+        blockBehavior.StartFallingTo(GetVector3Int());
+    }
+
+    public void MakeObjectInsideFallTo(Vector3Int targetPos)
     {
         if (!isFilled) return;
+        Clear();
+
         var blockBehavior = objectInside.GetComponent<BlockBehavior>();
         blockBehavior.StartFallingTo(targetPos);
     }
@@ -179,14 +210,26 @@ public class GridSlotMachine
 {
     public GridSlotMachine(int xlength, int ylength, int xstart, int ystart)
     {
-        slots = new GridSlot[xlength * ylength];
+        slots = new List<GridSlot>();
         leftmostX = xstart;
         bottomY = ystart;
+        rightmostX = xstart + xlength - 1;
+        topY = ystart + ylength - 1;
+
+        for (int x = xstart; x < xstart + xlength; x++)
+        {
+            for (int y = ystart; y < ystart + ylength; y++)
+            {
+                slots.Add(new GridSlot(x, y));
+            }
+        }
     }
 
-    public GridSlot[] slots { get; private set; }
+    public List<GridSlot> slots { get; private set; }
     public int leftmostX { get; set; }
     public int bottomY { get; set; }
+    public int rightmostX { get; set; }
+    public int topY { get; set; }
 
     public void CheckForFallers()
     {
@@ -199,15 +242,25 @@ public class GridSlotMachine
 
             foreach (GridSlot slotAbove in slotsAbove)
             {
-                slotAbove.SetObjectToFallTo(
+                slotAbove.MakeObjectInsideFallTo(
                     new Vector3Int(slotAbove.x, slotAbove.y + 1, 0)
                 );
             }
         }
+    }
 
-        // check for empty slot
-        // then make every filled slot above it to fall
-        // do this by setting isFalling and a stopPosition in 
-        // the object's BlockBehavior
+    public GridSlot GetBottommostEmptySlot(int x)
+    {
+        var emptySlotsAtX = slots
+            .Where(slot => slot.x == x)
+            .Where(slot => !slot.isFilled)
+            .OrderBy(slot => slot.y);
+
+        return emptySlotsAtX.Last();
+    }
+
+    public GridSlot GetSlotAtPosition(int x, int y)
+    {
+        return slots.Find(slot => slot.x == x && slot.y == y);
     }
 }
