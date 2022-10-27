@@ -1,0 +1,1851 @@
+fileFormatVersion: 2
+guid: 5e4c0d2c70a9f0645a28487a66107abc
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ballBlue.png
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 10
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f5a157ccc5e4bc30800000000000000
+      internalID: 4374373805763700215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ballGrey.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 10
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 578c011bb063f4120800000000000000
+      internalID: 2400196550254970997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 413
+        width: 190
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f9e61fa125f36e10800000000000000
+      internalID: 2189863368852433393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_bottom.png
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 7
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 329a22fe532bc37a0800000000000000
+      internalID: -6396041426057909981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_bottomleft.png
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 319
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b6d1ebc37f01eeb0800000000000000
+      internalID: -4692452346727115086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_bottomright.png
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 401
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d2a969b12d1e3860800000000000000
+      internalID: 7511473259182400208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_left.png
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 909d2a6148daf81d0800000000000000
+      internalID: -3346265215285929719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_mid.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0d861570eb501630800000000000000
+      internalID: 3895714697270693133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_right.png
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 319
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d89e5274db0aa4410800000000000000
+      internalID: 1462157763838077325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_top.png
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81e5c86e28bd62110800000000000000
+      internalID: 1235916503019970072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_topleft.png
+      rect:
+        serializedVersion: 2
+        x: 215
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b129864cf7306e6e0800000000000000
+      internalID: -1808754353051758053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonDefault_topright.png
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 274df6235e80f4fa0800000000000000
+      internalID: -5814418813425298318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 463
+        width: 190
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 538cd7b510be1fc00800000000000000
+      internalID: 932784988904867893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_bottom.png
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 332
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80e6cf7b7f16beca0800000000000000
+      internalID: -5986583563087352312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_bottomleft.png
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 20
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b5fde2cacbb9dc90800000000000000
+      internalID: -7144472854318418510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_bottomright.png
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a570c2135a815450800000000000000
+      internalID: 6075789461701031329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_left.png
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 16
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fce3ed46fa56d920800000000000000
+      internalID: 3014697014486363380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_mid.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 16
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce4910ef0251905c0800000000000000
+      internalID: -4248841542002699028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_right.png
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 3
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ade4c9006db1e7ff0800000000000000
+      internalID: -36561141025190182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_top.png
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 16
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b7cd8817b38f94b0800000000000000
+      internalID: -5431477803171330119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_topleft.png
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 388
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fc63a40a1fd11570800000000000000
+      internalID: 8435768879881612530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: buttonSelected_topright.png
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 332
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01563e225f5cc17c0800000000000000
+      internalID: -4099183904171006704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 221
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4951d6e569a50db00800000000000000
+      internalID: 851279931448825236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 78
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ad3a6a6c5cb092d0800000000000000
+      internalID: -3273909823989989979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 127
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe9f24dab8964e660800000000000000
+      internalID: 7414166935186897391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 174
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7deccb0be74659c40800000000000000
+      internalID: 5518427413706231511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 330
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9569646cf97e60b90800000000000000
+      internalID: -7275873474558126503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 297
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 847d4b89013415220800000000000000
+      internalID: 2472831408963639112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_square.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 214
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34caf2788f5937290800000000000000
+      internalID: -7893800827197871037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_blue_square_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 115
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5085d5eaefb7e160800000000000000
+      internalID: 7054818356898398303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 11
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbb84d902f62632d0800000000000000
+      internalID: -3299406856013444161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 60
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f71fe7dcbb7bd7ad0800000000000000
+      internalID: -2702802184118013569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 109
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25895d8607e3e83c0800000000000000
+      internalID: -4355475137104603054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 156
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d3444f38af8cd210800000000000000
+      internalID: 1359119140337763286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 99
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acba955b04d0919c0800000000000000
+      internalID: -3956116226096649270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 66
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b52ff47636abca30800000000000000
+      internalID: 4236662627293406648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_square.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 181
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1ccabae07cbf69b0800000000000000
+      internalID: -5084638261117531105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_green_square_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 414
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e4d457da2126a70800000000000000
+      internalID: 8818631556551495240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 270
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3091bbd4482d68d0800000000000000
+      internalID: -2851578712846921670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 103
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c589ce5d2afe74500800000000000000
+      internalID: 380536176188889180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 152
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 486d0788ec4d8da20800000000000000
+      internalID: 3087451528079922820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 203
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dd26066a97811bd0800000000000000
+      internalID: -2661196807592858151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 132
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7deaf8b256bd37330800000000000000
+      internalID: 3707548145825066711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 165
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1459bb145f8c8df0800000000000000
+      internalID: -176608693969136609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_square.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 49
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f13c71010c4eb6fe0800000000000000
+      internalID: -1194609762581888225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_grey_square_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 49
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 892614c73040176c0800000000000000
+      internalID: -4147529368815443304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_cube_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 16
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c3763ab7eab56e70800000000000000
+      internalID: 9107891325851038663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 248
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1cef20a93dd5d760800000000000000
+      internalID: 7482129595516316702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 54
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef70e5699a5f1e770800000000000000
+      internalID: 8638455668994344958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 250
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a331747322fc50dc0800000000000000
+      internalID: -3673302175187528902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 366
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 520b75e91a4e43870800000000000000
+      internalID: 8661799366137720869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 198
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1722716c5c8fb87a0800000000000000
+      internalID: -6373727319297154447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 231
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b6b8585675732e60800000000000000
+      internalID: 7936316119505745587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_purple_square.png
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 447
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccd650a1f891bab70800000000000000
+      internalID: 8911244390090239436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 199
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6620f984e19e6160800000000000000
+      internalID: 7020709279869970029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 5
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc83a7680612bf510800000000000000
+      internalID: 1583896392407595211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 366
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eaa6b5f749c50d10800000000000000
+      internalID: 2091298912885713632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 319
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f6becb19d40db930800000000000000
+      internalID: 4160486961281152752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 330
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 171fe972a274e1e90800000000000000
+      internalID: -7053121720036691599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 297
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5e6e161ce11cf600800000000000000
+      internalID: 503296964039700061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_square.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 247
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05445e106c67494d0800000000000000
+      internalID: -3128745248308247472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_red_square_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 345
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7edb58823cb653c0800000000000000
+      internalID: -4371099463094378881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_diamond.png
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 417
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28480fc2d3ad35fe0800000000000000
+      internalID: -1201376719295970174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_diamond_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 29
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1da46e89d223e3740800000000000000
+      internalID: 5133595796669090513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_polygon.png
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 319
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dedf5951bf25ac740800000000000000
+      internalID: 5173038360340856301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_polygon_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 466
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9f8b960cb993d2a0800000000000000
+      internalID: -6713853586635518050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_rectangle.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 264
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0720a0555dfa5dcf0800000000000000
+      internalID: -228082875322727824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_rectangle_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 33
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51d328a1891df2980800000000000000
+      internalID: -8561393915398046443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_square.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 148
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8848a47f0a71b0a50800000000000000
+      internalID: 6488305668268393608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: element_yellow_square_glossy.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 82
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41dab330a23c724c0800000000000000
+      internalID: -4312263532973675244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: paddleBlu.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 388
+        width: 104
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 237a35a902786aa90800000000000000
+      internalID: -7303001171636803790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: paddleRed.png
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 363
+        width: 104
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38cec73eaed9a30c0800000000000000
+      internalID: -4595186837613646717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: particleCartoonStar.png
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 297
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03387d20f8e23d0d0800000000000000
+      internalID: -3399322101971713232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: particleSmallStar.png
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 308
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9588b5f5a14400d00800000000000000
+      internalID: 936823602552735833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: particleStar.png
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 297
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3266afd0864bd12b0800000000000000
+      internalID: -5612131201629657565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selectorA.png
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 378
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f3f5dada928dcf50800000000000000
+      internalID: 6903317405436867575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selectorB.png
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 280
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fc54eea2b77cf6a0800000000000000
+      internalID: -6414120159960343308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: selectorC.png
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 480
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62906ec7e3e296000800000000000000
+      internalID: 29605718472919334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      buttonSelected_right.png: -36561141025190182
+      element_yellow_rectangle.png: -228082875322727824
+      selectorA.png: 6903317405436867575
+      element_red_diamond_glossy.png: 1583896392407595211
+      element_red_diamond.png: 7020709279869970029
+      element_red_polygon_glossy.png: 4160486961281152752
+      element_blue_rectangle.png: -7275873474558126503
+      element_yellow_square.png: 6488305668268393608
+      buttonDefault_bottomright.png: 7511473259182400208
+      buttonSelected_left.png: 3014697014486363380
+      paddleRed.png: -4595186837613646717
+      buttonSelected_topright.png: -4099183904171006704
+      selectorB.png: -6414120159960343308
+      buttonDefault_mid.png: 3895714697270693133
+      element_blue_diamond.png: 851279931448825236
+      element_blue_polygon.png: 7414166935186897391
+      element_green_square_glossy.png: 8818631556551495240
+      element_grey_square.png: -1194609762581888225
+      particleSmallStar.png: 936823602552735833
+      buttonSelected_bottomleft.png: -7144472854318418510
+      element_grey_rectangle.png: 3707548145825066711
+      element_red_rectangle.png: -7053121720036691599
+      element_red_square.png: -3128745248308247472
+      element_green_diamond_glossy.png: -2702802184118013569
+      buttonSelected_topleft.png: 8435768879881612530
+      buttonDefault_right.png: 1462157763838077325
+      element_green_diamond.png: -3299406856013444161
+      buttonDefault_top.png: 1235916503019970072
+      element_grey_square_glossy.png: -4147529368815443304
+      element_blue_square.png: -7893800827197871037
+      element_grey_rectangle_glossy.png: -176608693969136609
+      element_grey_diamond_glossy.png: 380536176188889180
+      buttonDefault_left.png: -3346265215285929719
+      element_grey_polygon_glossy.png: -2661196807592858151
+      element_red_square_glossy.png: -4371099463094378881
+      ballBlue.png: 4374373805763700215
+      element_purple_polygon_glossy.png: 8661799366137720869
+      element_purple_polygon.png: -3673302175187528902
+      element_purple_diamond.png: 7482129595516316702
+      buttonDefault_topleft.png: -1808754353051758053
+      element_purple_rectangle_glossy.png: 7936316119505745587
+      element_red_polygon.png: 2091298912885713632
+      element_yellow_diamond_glossy.png: 5133595796669090513
+      buttonDefault_topright.png: -5814418813425298318
+      element_green_rectangle_glossy.png: 4236662627293406648
+      buttonDefault_bottom.png: -6396041426057909981
+      paddleBlu.png: -7303001171636803790
+      buttonDefault_bottomleft.png: -4692452346727115086
+      buttonSelected_bottomright.png: 6075789461701031329
+      element_purple_rectangle.png: -6373727319297154447
+      element_blue_rectangle_glossy.png: 2472831408963639112
+      element_purple_square.png: 8911244390090239436
+      element_grey_diamond.png: -2851578712846921670
+      buttonSelected.png: 932784988904867893
+      element_blue_diamond_glossy.png: -3273909823989989979
+      particleCartoonStar.png: -3399322101971713232
+      element_purple_cube_glossy.png: 9107891325851038663
+      ballGrey.png: 2400196550254970997
+      buttonSelected_top.png: -5431477803171330119
+      element_yellow_diamond.png: -1201376719295970174
+      element_green_rectangle.png: -3956116226096649270
+      buttonSelected_mid.png: -4248841542002699028
+      buttonSelected_bottom.png: -5986583563087352312
+      selectorC.png: 29605718472919334
+      element_blue_polygon_glossy.png: 5518427413706231511
+      element_blue_square_glossy.png: 7054818356898398303
+      element_yellow_polygon.png: 5173038360340856301
+      element_purple_diamond_glossy.png: 8638455668994344958
+      buttonDefault.png: 2189863368852433393
+      element_yellow_polygon_glossy.png: -6713853586635518050
+      element_red_rectangle_glossy.png: 503296964039700061
+      element_yellow_rectangle_glossy.png: -8561393915398046443
+      particleStar.png: -5612131201629657565
+      element_green_polygon_glossy.png: 1359119140337763286
+      element_green_square.png: -5084638261117531105
+      element_grey_polygon.png: 3087451528079922820
+      element_yellow_square_glossy.png: -4312263532973675244
+      element_green_polygon.png: -4355475137104603054
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
