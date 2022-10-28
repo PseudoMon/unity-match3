@@ -10,15 +10,10 @@ public class PuzzleManager : MonoBehaviour
     private Grid grid;
     private GridSlotMachine gridSlotMachine;
     
-    // Grid goes from -5 to 5
-
-    public List<Vector3Int> bottomGrids = new List<Vector3Int>();
-
     // Start is called before the first frame update
     void Start()
     {
         grid = GetComponent<Grid>();
-        SetBottomGrids();
         gridSlotMachine = new GridSlotMachine(10, 10, -5, -5);
 
         for (int y = 8; y < 18; y++)
@@ -33,20 +28,10 @@ public class PuzzleManager : MonoBehaviour
         for (int x = -5; x < 5; x++)
         {
             GridSlot slotToFill = gridSlotMachine.GetBottommostEmptySlot(x);
-            SpawnBlock(slotToFill, slotToFill.GetVector3Int() + new Vector3Int(0, 10, 0));
-
-            // GameObject blockPrefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
-            // GameObject newBlock = Instantiate(blockPrefab, transform);
-
-            // Vector3Int gridOrigin = new Vector3Int(x, y, 0);
-            // Vector3 gridOriginPos = grid.GetCellCenterLocal(gridOrigin);
-            // Debug.Log(gridOriginPos);
-
-            // newBlock.AddComponent<BlockBehavior>();
-            // newBlock.GetComponent<BlockBehavior>().bottomGrids = bottomGrids;
-            
-            // newBlock.transform.localPosition = gridOriginPos;
-            // newBlock.GetComponent<Rigidbody2D>().WakeUp();
+            SpawnBlock(
+                slotToFill, 
+                slotToFill.GetVector3Int() + new Vector3Int(0, 10, 0)
+            );
         }
     }
 
@@ -63,15 +48,6 @@ public class PuzzleManager : MonoBehaviour
         targetGridSlot.MakeObjectElsewhereFallHere(newBlock);
 
         newBlock.GetComponent<Rigidbody2D>().WakeUp();
-
-    }
-
-    void SetBottomGrids()   
-    {
-        for (int x = -5; x < 5; x++)
-        {
-            bottomGrids.Add(new Vector3Int(x, -5, 0));
-        }
     }
 
     void Update()
@@ -80,6 +56,8 @@ public class PuzzleManager : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        gridSlotMachine.CheckForFallers();
     }
 }
 
@@ -88,6 +66,7 @@ public class BlockBehavior : MonoBehaviour
     private Grid grid;
     private Rigidbody2D rb;
 
+    private GridSlot currentSlot;
     private Vector3 stopPosition;
     private bool stopPositionFound;
 
@@ -101,36 +80,19 @@ public class BlockBehavior : MonoBehaviour
     {
         if (!rb.isKinematic) {
             // If the block is still affected by gravity i.e. falling
-            // Fall to place
-            // if (!stopPositionFound)
-            // {
-            //     CheckIfFallPosition();
-            // }
-            
+
             if (stopPositionFound)
             {
                 StopAtFallPosition();
             } 
         }
-
     }
 
-    // void CheckIfFallPosition()
-    // {
-    //     // Check if the cell we're at is where we're supposed to stop
-    //     Vector3Int currentCell = grid.LocalToCell(transform.localPosition);
-    //     int stopCellId = bottomGrids.FindIndex(
-    //         cell => Vector3Int.Equals(currentCell, cell)
-    //     );
-    //     bool stopHere = stopCellId != -1;
-
-    //     if (stopHere)
-    //     {
-    //         stopPosition = grid.GetCellCenterWorld(currentCell);
-    //         bottomGrids[stopCellId] += Vector3Int.up;
-    //         stopPositionFound = true;
-    //     }
-    // }
+    void OnMouseDown()
+    {
+        currentSlot.Clear();
+        Destroy(gameObject);
+    }
 
     void StopAtFallPosition()
     {
@@ -142,14 +104,16 @@ public class BlockBehavior : MonoBehaviour
         }
     }
 
-    public void StartFallingTo(Vector3Int target)
+    public void StartFallingTo(GridSlot targetSlot)
     {
+        currentSlot = targetSlot;
         stopPositionFound = true;
-        stopPosition = grid.GetCellCenterWorld(target); 
+        stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int()); 
         rb.isKinematic = false;
     }
 }
 
+[System.Serializable]
 public class GridSlot
 {
     public GridSlot(int x, int y)
@@ -167,7 +131,7 @@ public class GridSlot
     public GameObject objectInside { 
         get 
         { 
-            if (isFilled) return objectInside;
+            if (isFilled) return _objectInside;
             else return null; 
         } 
 
@@ -193,19 +157,20 @@ public class GridSlot
     {
         FillWith(thing);
         var blockBehavior = thing.GetComponent<BlockBehavior>();
-        blockBehavior.StartFallingTo(GetVector3Int());
+        blockBehavior.StartFallingTo(this);
     }
 
-    public void MakeObjectInsideFallTo(Vector3Int targetPos)
+    public void MakeObjectInsideFallTo(GridSlot targetSlot)
     {
-        if (!isFilled) return;
-        Clear();
 
-        var blockBehavior = objectInside.GetComponent<BlockBehavior>();
-        blockBehavior.StartFallingTo(targetPos);
+        if (!isFilled || targetSlot.isFilled) return;
+        
+        targetSlot.MakeObjectElsewhereFallHere(objectInside);
+        Clear();
     }
 }
 
+[System.Serializable]
 public class GridSlotMachine
 {
     public GridSlotMachine(int xlength, int ylength, int xstart, int ystart)
@@ -234,18 +199,12 @@ public class GridSlotMachine
     public void CheckForFallers()
     {
         var emptySlots = slots.Where(slot => !slot.isFilled);
+
         foreach (GridSlot thisEmptySlot in emptySlots)
         {
-            var slotsAbove = slots.Where(slot => 
-                slot.x == thisEmptySlot.x && slot.y > thisEmptySlot.y
-            );
-
-            foreach (GridSlot slotAbove in slotsAbove)
-            {
-                slotAbove.MakeObjectInsideFallTo(
-                    new Vector3Int(slotAbove.x, slotAbove.y + 1, 0)
-                );
-            }
+            if (thisEmptySlot.y == topY) continue;
+            var slotAbove = slots.Single(slot => slot.x == thisEmptySlot.x && slot.y == thisEmptySlot.y + 1);
+            slotAbove.MakeObjectInsideFallTo(thisEmptySlot);
         }
     }
 
