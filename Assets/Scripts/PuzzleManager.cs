@@ -12,6 +12,8 @@ public class PuzzleManager : MonoBehaviour
 
     private Grid grid;
     private GridSlotMachine gridSlotMachine;
+
+    private BlockBehavior selectedBlock;
     
     // Start is called before the first frame update
     void Start()
@@ -19,7 +21,7 @@ public class PuzzleManager : MonoBehaviour
         grid = GetComponent<Grid>();
         gridSlotMachine = new GridSlotMachine(10, 10, -5, -5);
 
-        for (int y = 8; y < 18; y++)
+        for (int y = 4; y < 4 + 10; y++)
         {
             SpawnRow();
         }
@@ -70,8 +72,43 @@ public class PuzzleManager : MonoBehaviour
             DestroyBlockAtMousePos();
         }
 
+        if (Input.GetButtonDown("Fire1"))
+        {
+            SelectBlock();
+        }        
+
+        // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
     }
+
+    void SelectBlock()
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(
+            Camera.main.ScreenToWorldPoint(Input.mousePosition), 
+            Vector2.zero
+        );
+
+        if (hitInfo.collider)
+        {
+            var clickedObject = hitInfo.collider.gameObject;
+            var blockBehavior = clickedObject.GetComponent<BlockBehavior>();
+            blockBehavior.SelectBlock();
+
+            if (selectedBlock && selectedBlock != blockBehavior)
+            {
+                selectedBlock.UnselectBlock();
+            }
+
+            selectedBlock = blockBehavior;
+        }
+    }
+
+    // void SwapBlock(BlockBehavior block1, BlockBehavior block2)
+    // {
+
+    // }
+
+
 
     // Debug function
     void ResetOnR()
@@ -116,6 +153,8 @@ public class BlockBehavior : MonoBehaviour
     public GameObject hovererPrefab;
     public GameObject selectorPrefab;
 
+    private bool isMovingKinematically;
+
     void Awake()
     {
         grid = transform.parent.GetComponent<Grid>();
@@ -134,7 +173,7 @@ public class BlockBehavior : MonoBehaviour
             } 
         }
 
-        if (rb.isKinematic)
+        if (rb.isKinematic) // is not affected by gravity i.e. can be moved
         {
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             bool mouseIsOverBlock = thisCollider.OverlapPoint(mousePos);
@@ -149,19 +188,31 @@ public class BlockBehavior : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    void FixedUpdate()
     {
-        SelectBlock();
+        if (isMovingKinematically)
+        {
+            // TODO
+            // check what direction the target is
+            rb.MovePosition(rb.position + 1 * Time.deltaTime);
+        }
+
+        if (isMovingKinematically && stopPositionFound)
+        {
+            StopAtMovementPosition();
+        }
     }
 
     public void SelectBlock()
     {
+        if (isSelected) return;
         selectCursor = Instantiate(selectorPrefab, transform);
         isSelected = true;
     }
 
     public void UnselectBlock()
     {
+        if (!isSelected) return;
         Destroy(selectCursor);
         isSelected = false;
     }
@@ -188,6 +239,8 @@ public class BlockBehavior : MonoBehaviour
     {
         if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
         {
+            // When we're veeery close to the target position,
+            // stop falling, and just snap to position
             rb.isKinematic = true;
             rb.velocity = Vector2.zero;
             rb.MovePosition(stopPosition);
@@ -196,10 +249,31 @@ public class BlockBehavior : MonoBehaviour
 
     public void StartFallingTo(GridSlot targetSlot)
     {
+        // Set where to fall towards and disable isKinematic
+        // so this block is affectecd by gravity
         currentSlot = targetSlot;
         stopPositionFound = true;
         stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int()); 
         rb.isKinematic = false;
+    }
+
+    public void MoveTowards(GridSlot targetSlot)
+    {
+        // Move towards the specific target slot
+        currentSlot = targetSlot;
+        stopPositionFound = true;
+        stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int());
+        isMovingKinematically = true;
+    }
+
+    void StopAtMovementPosition()
+    {
+        if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
+        {
+            isMovingKinematically = false;
+            rb.velocity = Vector2.zero;
+            rb.MovePosition(stopPosition); // snap to position
+        } 
     }
 }
 
@@ -241,6 +315,16 @@ public class GridSlot
     public void Clear()
     {
         isFilled = false;
+    }
+
+    public void SwapObjectInsideWithObjectInSlot(GridSlot targetSlot)
+    {
+        var targetSlotObject = targetSlot.objectInside;
+        objectInside.GetComponent<BlockBehavior>().MoveTowards(targetSlot);
+        targetSlotObject.GetComponent<BlockBehavior>().MoveTowards(this);
+
+        targetSlot.objectInside = objectInside;
+        objectInside = targetSlotObject;  
     }
 
     public void MakeObjectElsewhereFallHere(GameObject thing)
