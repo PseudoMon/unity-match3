@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class PuzzleManager : MonoBehaviour
 {
     public GameObject[] blockPrefabs;
+    public GameObject hovererPrefab;
+    public GameObject selectorPrefab;
+
     private Grid grid;
     private GridSlotMachine gridSlotMachine;
     
@@ -44,7 +47,10 @@ public class PuzzleManager : MonoBehaviour
         Vector3 spawnOriginPos = grid.GetCellCenterLocal(spawnOrigin);
         newBlock.transform.localPosition = spawnOriginPos;
 
-        newBlock.AddComponent<BlockBehavior>();
+        var newBlockBehavior = newBlock.AddComponent<BlockBehavior>();
+        newBlockBehavior.hovererPrefab = hovererPrefab;
+        newBlockBehavior.selectorPrefab = selectorPrefab;
+
         targetGridSlot.MakeObjectElsewhereFallHere(newBlock);
 
         newBlock.GetComponent<Rigidbody2D>().WakeUp();
@@ -52,12 +58,43 @@ public class PuzzleManager : MonoBehaviour
 
     void Update()
     {
+        ResetOnR();
+
+        RaycastHit2D hitInfo = Physics2D.Raycast(
+            Camera.main.ScreenToWorldPoint(Input.mousePosition), 
+            Vector2.zero
+        );
+
+        if (Input.GetButtonDown("Fire2"))
+        {
+            DestroyBlockAtMousePos();
+        }
+
+        gridSlotMachine.CheckForFallers();
+    }
+
+    // Debug function
+    void ResetOnR()
+    {
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
 
-        gridSlotMachine.CheckForFallers();
+    // Debug function
+    void DestroyBlockAtMousePos()
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(
+            Camera.main.ScreenToWorldPoint(Input.mousePosition), 
+            Vector2.zero
+        );
+        if (hitInfo.collider)
+        {
+            var clickedObject = hitInfo.collider.gameObject;
+            Debug.Log($"HIT SOMETHING {clickedObject}", clickedObject);
+            clickedObject.GetComponent<BlockBehavior>().DestroyBlock();
+        }
     }
 }
 
@@ -65,30 +102,83 @@ public class BlockBehavior : MonoBehaviour
 {
     private Grid grid;
     private Rigidbody2D rb;
+    private Collider2D thisCollider;
 
     private GridSlot currentSlot;
     private Vector3 stopPosition;
     private bool stopPositionFound;
 
+    private bool isHovered;
+    private GameObject hoverCursor;
+    private bool isSelected;
+    private GameObject selectCursor;
+
+    public GameObject hovererPrefab;
+    public GameObject selectorPrefab;
+
     void Awake()
     {
         grid = transform.parent.GetComponent<Grid>();
         rb = transform.GetComponent<Rigidbody2D>();
+        thisCollider = GetComponent<Collider2D>();
     }
 
     void Update()
     {
-        if (!rb.isKinematic) {
+        if (!rb.isKinematic) 
+        {
             // If the block is still affected by gravity i.e. falling
-
             if (stopPositionFound)
             {
                 StopAtFallPosition();
             } 
         }
+
+        if (rb.isKinematic)
+        {
+            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            bool mouseIsOverBlock = thisCollider.OverlapPoint(mousePos);
+            if (mouseIsOverBlock && !isHovered)
+            {
+                HoverBlock();
+            }
+            if (!mouseIsOverBlock && isHovered)
+            {
+                UnhoverBlock();
+            }
+        }
     }
 
     void OnMouseDown()
+    {
+        SelectBlock();
+    }
+
+    public void SelectBlock()
+    {
+        selectCursor = Instantiate(selectorPrefab, transform);
+        isSelected = true;
+    }
+
+    public void UnselectBlock()
+    {
+        Destroy(selectCursor);
+        isSelected = false;
+    }
+
+    void HoverBlock()
+    {
+        hoverCursor = Instantiate(hovererPrefab, transform);
+        isHovered = true;
+    }
+
+    void UnhoverBlock()
+    {
+        Destroy(hoverCursor); 
+        isHovered = false;
+    }
+
+    public void DestroyBlock()
     {
         currentSlot.Clear();
         Destroy(gameObject);
