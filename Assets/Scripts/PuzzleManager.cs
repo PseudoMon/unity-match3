@@ -298,63 +298,71 @@ public class GridSlotMachine
 
         for (int y = bottomY; y <= topY; y++)
         {
-            CheckForScorersAtRow(y);
+            CheckForScorers(y, "row");
         }
 
         for (int x = leftmostX; x <= rightmostX; x++)
         {
-            CheckForScorersAtColumn(x);
+            CheckForScorers(x, "column");
         }
     }
 
-    public void CheckForScorersAtRow(int thisRow)
+    public void CheckForScorers(int staticAxis, string rowOrColumn)
     {
-        // TODO: This and the column version are almost identical
-        // just make them one function please
-
-        int x = leftmostX;
-        while (x <= rightmostX)
+        if (rowOrColumn != "row" && rowOrColumn != "column")
         {
-            GridSlot thisSlot = GetSlotAtPosition(x, thisRow);
+            // TODO: Throw error
+            return;
+        }
+
+        int mobileAxis = rowOrColumn == "row" ? leftmostX : bottomY;
+        int axisEnd = rowOrColumn == "row" ? rightmostX : topY;
+
+        while (mobileAxis <= axisEnd)
+        {
+            GridSlot thisSlot = rowOrColumn == "row" ? 
+                GetSlotAtPosition(mobileAxis, staticAxis) :
+                GetSlotAtPosition(staticAxis, mobileAxis);
+
             GameObject blockAtThisSlot = thisSlot.objectInside;
             if (blockAtThisSlot == null)
             {
-                x += 1;
+                mobileAxis += 1;
                 continue;
             }
-            
-            string colorToCheck = 
+
+            string thisColor = 
                 blockAtThisSlot.GetComponent<BlockInfo>().color;
             
             List<GridSlot> slotsWithThisColor = new List<GridSlot>();
             slotsWithThisColor.Add(thisSlot);
 
-            int xAtRight = x + 1;
+            int nextAxis = mobileAxis + 1;
 
-            while (xAtRight <= rightmostX)
+            while (nextAxis <= axisEnd)
             {
-                GridSlot nextSlot = GetSlotAtPosition(xAtRight, thisRow);
+                GridSlot nextSlot = rowOrColumn == "row" ? 
+                    GetSlotAtPosition(nextAxis, staticAxis) :
+                    GetSlotAtPosition(staticAxis, nextAxis);
                 GameObject blockAtNextSlot = nextSlot.objectInside;
+                
                 if (blockAtNextSlot == null)
                 {
-                    xAtRight += 1;
+                    nextAxis += 1;
                     break;
                 }
 
-                Debug.Log(colorToCheck);
-                Debug.Log(blockAtNextSlot.GetComponent<BlockInfo>().color, blockAtThisSlot);
-
-                if (blockAtNextSlot.GetComponent<BlockInfo>().color == colorToCheck)
+                if (blockAtNextSlot.GetComponent<BlockInfo>().color == thisColor)
                 {
                     slotsWithThisColor.Add(nextSlot);
-                    xAtRight += 1;
+                    nextAxis += 1;
                     continue;
                 }
 
                 break;
-            }   
+            }
 
-            x = xAtRight;
+            mobileAxis = nextAxis;
             if (slotsWithThisColor.Count >= 3)
             {
                 Debug.Log("SCORE");
@@ -362,70 +370,12 @@ public class GridSlotMachine
                 {
                     // TODO SOME BULLSHIT HERE
                     Debug.Log(slot.coordinate, slot.objectInside);
-                    slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
-                }
-            }
-
-        }
-
-        Debug.Log($"DONE FOR ROW {thisRow}");
-    }
-
-    public void CheckForScorersAtColumn(int thisColumn)
-    {
-        int y = bottomY;
-        while (y <= topY)
-        {
-            GridSlot thisSlot = GetSlotAtPosition(thisColumn, y);
-            GameObject blockAtThisSlot = thisSlot.objectInside;
-            if (blockAtThisSlot == null)
-            {
-                y += 1;
-                continue;
-            }
-            
-            string colorToCheck = 
-                blockAtThisSlot.GetComponent<BlockInfo>().color;
-            
-            List<GridSlot> slotsWithThisColor = new List<GridSlot>();
-            slotsWithThisColor.Add(thisSlot);
-
-            int yAbove = y + 1;
-
-            while (yAbove <= topY)
-            {
-                GridSlot nextSlot = GetSlotAtPosition(thisColumn, yAbove);
-                GameObject blockAtNextSlot = nextSlot.objectInside;
-                if (blockAtNextSlot == null)
-                {
-                    yAbove += 1;
-                    break;
-                }
-
-                if (blockAtNextSlot.GetComponent<BlockInfo>().color == colorToCheck)
-                {
-                    slotsWithThisColor.Add(nextSlot);
-                    yAbove += 1;
-                    continue;
-                }
-
-                break;
-            }   
-
-            y = yAbove;
-            if (slotsWithThisColor.Count >= 3)
-            {
-                Debug.Log("SCORE");
-                foreach (GridSlot slot in slotsWithThisColor)
-                {
-                    Debug.Log(slot.coordinate, slot.objectInside);
-                    // TODO SOME BULLSHIT HERE
-                    slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
+                    //slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
                 }
             }
         }
 
-        Debug.Log($"DONE FOR COLUMN {thisColumn}");
+        Debug.Log($"SCORER CHECK DONE FOR {rowOrColumn} {staticAxis}");
     }
 
     public GridSlot GetBottommostEmptySlot(int x)
