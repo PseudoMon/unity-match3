@@ -142,8 +142,6 @@ public class BlockBehavior : MonoBehaviour
     private Collider2D thisCollider;
 
     private GridSlot currentSlot;
-    private Vector3 stopPosition;
-    private bool stopPositionFound;
 
     private bool isHovered;
     private GameObject hoverCursor;
@@ -164,17 +162,9 @@ public class BlockBehavior : MonoBehaviour
 
     void Update()
     {
-        if (!rb.isKinematic) 
+        if (rb.isKinematic) 
         {
-            // If the block is still affected by gravity i.e. falling
-            if (stopPositionFound)
-            {
-                StopAtFallPosition();
-            } 
-        }
-
-        if (rb.isKinematic) // is not affected by gravity i.e. can be moved
-        {
+            // is not affected by gravity i.e. not falling and therefore can be moved
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             bool mouseIsOverBlock = thisCollider.OverlapPoint(mousePos);
             if (mouseIsOverBlock && !isHovered)
@@ -188,20 +178,20 @@ public class BlockBehavior : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        if (isMovingKinematically)
-        {
-            // TODO
-            // check what direction the target is
-            rb.MovePosition(rb.position + 1 * Time.deltaTime);
-        }
+    // void FixedUpdate()
+    // {
+    //     if (isMovingKinematically)
+    //     {
+    //         // TODO
+    //         // check what direction the target is moving in
+    //         //rb.MovePosition(rb.position + 1 * Time.deltaTime);
+    //     }
 
-        if (isMovingKinematically && stopPositionFound)
-        {
-            StopAtMovementPosition();
-        }
-    }
+    //     if (isMovingKinematically && stopPositionFound)
+    //     {
+    //         StopAtMovementPosition();
+    //     }
+    // }
 
     public void SelectBlock()
     {
@@ -235,46 +225,51 @@ public class BlockBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void StopAtFallPosition()
-    {
-        if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
-        {
-            // When we're veeery close to the target position,
-            // stop falling, and just snap to position
-            rb.isKinematic = true;
-            rb.velocity = Vector2.zero;
-            rb.MovePosition(stopPosition);
-        }
-    }
-
     public void StartFallingTo(GridSlot targetSlot)
     {
         // Set where to fall towards and disable isKinematic
         // so this block is affectecd by gravity
+
         currentSlot = targetSlot;
-        stopPositionFound = true;
-        stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int()); 
         rb.isKinematic = false;
+        var stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int()); 
+        
+        IEnumerator StopAtFallPosition()
+        {
+            while (Vector2.Distance(rb.position, stopPosition) > 0.1)
+            {
+                yield return null;
+            }
+
+            // When we're veeery close to the target position 
+            // (difference <= 0.1), stop falling, and just snap to position
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            rb.MovePosition(stopPosition);
+            yield break;
+        }
+
+        StartCoroutine(StopAtFallPosition());
     }
 
     public void MoveTowards(GridSlot targetSlot)
     {
         // Move towards the specific target slot
-        currentSlot = targetSlot;
-        stopPositionFound = true;
-        stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int());
-        isMovingKinematically = true;
+        // MASSIVE TODO
+        // currentSlot = targetSlot;
+        // stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int());
+        // isMovingKinematically = true;
     }
 
-    void StopAtMovementPosition()
-    {
-        if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
-        {
-            isMovingKinematically = false;
-            rb.velocity = Vector2.zero;
-            rb.MovePosition(stopPosition); // snap to position
-        } 
-    }
+    // void StopAtMovementPosition()
+    // {
+    //     if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
+    //     {
+    //         isMovingKinematically = false;
+    //         rb.velocity = Vector2.zero;
+    //         rb.MovePosition(stopPosition); // snap to position
+    //     } 
+    // }
 }
 
 [System.Serializable]
