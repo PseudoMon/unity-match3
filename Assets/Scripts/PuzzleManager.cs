@@ -74,14 +74,14 @@ public class PuzzleManager : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1"))
         {
-            SelectBlock();
+            SelectBlockIfClicked();
         }        
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
     }
 
-    void SelectBlock()
+    void SelectBlockIfClicked()
     {
         RaycastHit2D hitInfo = Physics2D.Raycast(
             Camera.main.ScreenToWorldPoint(Input.mousePosition), 
@@ -91,24 +91,23 @@ public class PuzzleManager : MonoBehaviour
         if (hitInfo.collider)
         {
             var clickedObject = hitInfo.collider.gameObject;
-            var blockBehavior = clickedObject.GetComponent<BlockBehavior>();
-            blockBehavior.SelectBlock();
+            var clickedBlock = 
+                clickedObject.GetComponent<BlockBehavior>();
 
-            if (selectedBlock && selectedBlock != blockBehavior)
+            if (selectedBlock && selectedBlock != clickedBlock)
             {
+                // If there's a previously selected block
+                // Swap their position
                 selectedBlock.UnselectBlock();
+                selectedBlock.currentSlot.SwapObjectInsideWithObjectInSlot(clickedBlock.currentSlot);
+                selectedBlock = null;
             }
-
-            selectedBlock = blockBehavior;
+            else {
+                clickedBlock.SelectBlock();
+                selectedBlock = clickedBlock;
+            }
         }
     }
-
-    // void SwapBlock(BlockBehavior block1, BlockBehavior block2)
-    // {
-
-    // }
-
-
 
     // Debug function
     void ResetOnR()
@@ -141,8 +140,6 @@ public class BlockBehavior : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D thisCollider;
 
-    private GridSlot currentSlot;
-
     private bool isHovered;
     private GameObject hoverCursor;
     private bool isSelected;
@@ -152,6 +149,8 @@ public class BlockBehavior : MonoBehaviour
     public GameObject selectorPrefab;
 
     private bool isMovingKinematically;
+
+    public GridSlot currentSlot { get; private set; }
 
     void Awake()
     {
@@ -164,7 +163,7 @@ public class BlockBehavior : MonoBehaviour
     {
         if (rb.isKinematic) 
         {
-            // is not affected by gravity i.e. not falling and therefore can be moved
+            // is not moving and therefore can be selected
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             bool mouseIsOverBlock = thisCollider.OverlapPoint(mousePos);
             if (mouseIsOverBlock && !isHovered)
@@ -177,21 +176,6 @@ public class BlockBehavior : MonoBehaviour
             }
         }
     }
-
-    // void FixedUpdate()
-    // {
-    //     if (isMovingKinematically)
-    //     {
-    //         // TODO
-    //         // check what direction the target is moving in
-    //         //rb.MovePosition(rb.position + 1 * Time.deltaTime);
-    //     }
-
-    //     if (isMovingKinematically && stopPositionFound)
-    //     {
-    //         StopAtMovementPosition();
-    //     }
-    // }
 
     public void SelectBlock()
     {
@@ -255,21 +239,38 @@ public class BlockBehavior : MonoBehaviour
     public void MoveTowards(GridSlot targetSlot)
     {
         // Move towards the specific target slot
-        // MASSIVE TODO
-        // currentSlot = targetSlot;
-        // stopPosition = grid.GetCellCenterWorld(targetSlot.GetVector3Int());
-        // isMovingKinematically = true;
-    }
 
-    // void StopAtMovementPosition()
-    // {
-    //     if (Vector2.Distance(rb.position, stopPosition) <= 0.1)
-    //     {
-    //         isMovingKinematically = false;
-    //         rb.velocity = Vector2.zero;
-    //         rb.MovePosition(stopPosition); // snap to position
-    //     } 
-    // }
+        Vector2 currentPos = rb.position;
+        Vector2 stopPosition = (Vector2)grid.GetCellCenterWorld(targetSlot.GetVector3Int());
+        Vector2 movementDirection = 
+            (stopPosition - currentPos).normalized;
+
+        gameObject.layer = LayerMask.NameToLayer("Free Movement");
+        rb.isKinematic = false;
+        rb.gravityScale = 0f;
+        rb.AddForce(movementDirection * 500);
+
+        currentSlot = targetSlot; 
+        
+        IEnumerator StopAtTargetPos()
+        {
+            while (Vector2.Distance(rb.position, stopPosition) > 0.1)
+            {                
+                yield return null;
+            }
+
+            // When we're veeery close to the target position 
+            // (difference <= 0.1), stop moving and just snap to position
+            rb.isKinematic = true;
+            rb.gravityScale = 1f;
+            rb.velocity = Vector2.zero;
+            rb.MovePosition(stopPosition);
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            yield break;
+        }
+
+        StartCoroutine(StopAtTargetPos());
+    }
 }
 
 [System.Serializable]
@@ -296,6 +297,11 @@ public class GridSlot
 
         private set { _objectInside = value; }
     }
+
+    // Note:
+    // At the moment, gridslot can contain an object whose .currentSlot
+    // doesn't correspond with the gridslot. We should probably find a way
+    // to make it have one consistent source of truth.
 
     public Vector3Int GetVector3Int() {
         return new Vector3Int(x, y, 0);
