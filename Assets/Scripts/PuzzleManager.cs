@@ -62,20 +62,25 @@ public class PuzzleManager : MonoBehaviour
     {
         ResetOnR();
 
-        RaycastHit2D hitInfo = Physics2D.Raycast(
-            Camera.main.ScreenToWorldPoint(Input.mousePosition), 
-            Vector2.zero
-        );
+        bool allSlotsAreStill =
+            gridSlotMachine.slots.TrueForAll(slot => 
+                slot.objectInside == null || slot.objectInside.GetComponent<Rigidbody2D>().isKinematic
+            );
 
-        if (Input.GetButtonDown("Fire2"))
+        if (allSlotsAreStill)
         {
-            DestroyBlockAtMousePos();
+            // Interaction is only possible when no movement is happening
+            if (Input.GetButtonDown("Fire2"))
+            {
+                DestroyBlockAtMousePos();
+            }
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                SelectBlockIfClicked();
+            }       
         }
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            SelectBlockIfClicked();
-        }        
+         
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
@@ -397,13 +402,14 @@ public class GridSlotMachine
 
     public void CheckForFallers()
     {
-        var emptySlots = slots.Where(slot => !slot.isFilled);
-
-        foreach (GridSlot thisEmptySlot in emptySlots)
+        foreach (GridSlot slot in slots)
         {
-            if (thisEmptySlot.y == topY) continue;
-            var slotAbove = slots.Single(slot => slot.x == thisEmptySlot.x && slot.y == thisEmptySlot.y + 1);
-            slotAbove.MakeObjectInsideFallTo(thisEmptySlot);
+            if (slot.y == bottomY) continue;
+            var slotBelow = GetSlotAtPosition(slot.x, slot.y - 1);
+            if (slot.isFilled && !slotBelow.isFilled)
+            {
+                slot.MakeObjectInsideFallTo(slotBelow);
+            }
         }
     }
 
