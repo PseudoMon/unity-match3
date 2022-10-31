@@ -94,7 +94,7 @@ public class PuzzleManager : MonoBehaviour
             var clickedBlock = 
                 clickedObject.GetComponent<BlockBehavior>();
 
-            if (selectedBlock && selectedBlock != clickedBlock)
+            if (BlockIsNextToSelected(clickedBlock))
             {
                 // If there's a previously selected block
                 // Swap their position
@@ -104,9 +104,19 @@ public class PuzzleManager : MonoBehaviour
             }
             else {
                 clickedBlock.SelectBlock();
+                if (selectedBlock) selectedBlock.UnselectBlock();
                 selectedBlock = clickedBlock;
             }
         }
+    }
+
+    bool BlockIsNextToSelected(BlockBehavior clickedBlock)
+    {
+        return selectedBlock &&
+            selectedBlock != clickedBlock &&
+            selectedBlock.currentSlot.IsAdjacentWith(
+                clickedBlock.currentSlot
+            );
     }
 
     // Debug function
@@ -285,6 +295,12 @@ public class GridSlot
 
     public int x { get; private set; }
     public int y { get; private set; }
+    public Vector3Int coordinate { 
+        get
+        {
+            return new Vector3Int(x, y, 0);
+        }
+    }
 
     public bool isFilled { get; private set; }
     private GameObject _objectInside;
@@ -316,6 +332,14 @@ public class GridSlot
     public void Clear()
     {
         isFilled = false;
+    }
+
+    public bool IsAdjacentWith(GridSlot otherSlot)
+    {
+        return Vector3Int.Distance(
+                coordinate, 
+                otherSlot.GetVector3Int()
+            ) == 1;
     }
 
     public void SwapObjectInsideWithObjectInSlot(GridSlot targetSlot)
