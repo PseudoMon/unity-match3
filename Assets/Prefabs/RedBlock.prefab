@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 950631538319136477}
   - component: {fileID: 2499937449091777907}
   - component: {fileID: -8289170568517477538}
+  - component: {fileID: 4914178076151859002}
   m_Layer: 0
   m_Name: RedBlock
   m_TagString: Untagged
@@ -133,3 +134,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
   m_EdgeRadius: 0
+--- !u!114 &4914178076151859002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3807610125038502880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7bac2beafab8e4fbd96771f67bb0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: red

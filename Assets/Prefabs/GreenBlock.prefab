@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8756656946582360558}
   - component: {fileID: 3409873012771568189}
   - component: {fileID: 7192449903888505486}
+  - component: {fileID: -2006005482079497209}
   m_Layer: 0
   m_Name: GreenBlock
   m_TagString: Untagged
@@ -133,3 +134,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32}
   m_EdgeRadius: 0
+--- !u!114 &-2006005482079497209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2883386936769618079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7bac2beafab8e4fbd96771f67bb0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: green

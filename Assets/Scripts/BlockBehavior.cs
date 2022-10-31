@@ -59,7 +59,8 @@ public class BlockBehavior : MonoBehaviour
         isSelected = false;
     }
 
-    void HoverBlock()
+    // TEMPORARILY PUBLIC FOR DEBUGGING
+    public void HoverBlock()
     {
         hoverCursor = Instantiate(hovererPrefab, transform);
         isHovered = true;
@@ -90,7 +91,7 @@ public class BlockBehavior : MonoBehaviour
         {
             while (Vector2.Distance(rb.position, stopPosition) > 0.1)
             {
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
 
             // When we're veeery close to the target position 
@@ -124,7 +125,7 @@ public class BlockBehavior : MonoBehaviour
         {
             while (Vector2.Distance(rb.position, stopPosition) > 0.1)
             {                
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
 
             // When we're veeery close to the target position 

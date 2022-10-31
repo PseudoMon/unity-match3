@@ -84,6 +84,8 @@ public class PuzzleManager : MonoBehaviour
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
+
+        gridSlotMachine.CheckForScorers();
     }
 
     void SelectBlockIfClicked()
@@ -261,17 +263,169 @@ public class GridSlotMachine
     public int rightmostX { get; set; }
     public int topY { get; set; }
 
+    public bool allSlotsAreStill {
+        get
+        {
+            return slots.TrueForAll(slot => 
+                slot.objectInside == null || slot.objectInside.GetComponent<Rigidbody2D>().isKinematic
+            );
+        }
+    }
+
     public void CheckForFallers()
     {
+        // Check every slot aside from those 
+        // at the bottom row and those that are empty.
+        // Then check the slot below it. If the slot below is empty,
+        // make the object inside this slot fall.
         foreach (GridSlot slot in slots)
         {
             if (slot.y == bottomY) continue;
+            if (!slot.isFilled) continue;
+
             var slotBelow = GetSlotAtPosition(slot.x, slot.y - 1);
-            if (slot.isFilled && !slotBelow.isFilled)
+            if (!slotBelow.isFilled)
             {
                 slot.MakeObjectInsideFallTo(slotBelow);
             }
         }
+    }
+
+    public void CheckForScorers()
+    {
+        // Only check for scorers when no block is moving
+        if (!allSlotsAreStill) return;
+
+        for (int y = bottomY; y <= topY; y++)
+        {
+            CheckForScorersAtRow(y);
+        }
+
+        for (int x = leftmostX; x <= rightmostX; x++)
+        {
+            CheckForScorersAtColumn(x);
+        }
+    }
+
+    public void CheckForScorersAtRow(int thisRow)
+    {
+        // TODO: This and the column version are almost identical
+        // just make them one function please
+
+        int x = leftmostX;
+        while (x <= rightmostX)
+        {
+            GridSlot thisSlot = GetSlotAtPosition(x, thisRow);
+            GameObject blockAtThisSlot = thisSlot.objectInside;
+            if (blockAtThisSlot == null)
+            {
+                x += 1;
+                continue;
+            }
+            
+            string colorToCheck = 
+                blockAtThisSlot.GetComponent<BlockInfo>().color;
+            
+            List<GridSlot> slotsWithThisColor = new List<GridSlot>();
+            slotsWithThisColor.Add(thisSlot);
+
+            int xAtRight = x + 1;
+
+            while (xAtRight <= rightmostX)
+            {
+                GridSlot nextSlot = GetSlotAtPosition(xAtRight, thisRow);
+                GameObject blockAtNextSlot = nextSlot.objectInside;
+                if (blockAtNextSlot == null)
+                {
+                    xAtRight += 1;
+                    break;
+                }
+
+                Debug.Log(colorToCheck);
+                Debug.Log(blockAtNextSlot.GetComponent<BlockInfo>().color, blockAtThisSlot);
+
+                if (blockAtNextSlot.GetComponent<BlockInfo>().color == colorToCheck)
+                {
+                    slotsWithThisColor.Add(nextSlot);
+                    xAtRight += 1;
+                    continue;
+                }
+
+                break;
+            }   
+
+            x = xAtRight;
+            if (slotsWithThisColor.Count >= 3)
+            {
+                Debug.Log("SCORE");
+                foreach (GridSlot slot in slotsWithThisColor)
+                {
+                    // TODO SOME BULLSHIT HERE
+                    Debug.Log(slot.coordinate, slot.objectInside);
+                    slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
+                }
+            }
+
+        }
+
+        Debug.Log($"DONE FOR ROW {thisRow}");
+    }
+
+    public void CheckForScorersAtColumn(int thisColumn)
+    {
+        int y = bottomY;
+        while (y <= topY)
+        {
+            GridSlot thisSlot = GetSlotAtPosition(thisColumn, y);
+            GameObject blockAtThisSlot = thisSlot.objectInside;
+            if (blockAtThisSlot == null)
+            {
+                y += 1;
+                continue;
+            }
+            
+            string colorToCheck = 
+                blockAtThisSlot.GetComponent<BlockInfo>().color;
+            
+            List<GridSlot> slotsWithThisColor = new List<GridSlot>();
+            slotsWithThisColor.Add(thisSlot);
+
+            int yAbove = y + 1;
+
+            while (yAbove <= topY)
+            {
+                GridSlot nextSlot = GetSlotAtPosition(thisColumn, yAbove);
+                GameObject blockAtNextSlot = nextSlot.objectInside;
+                if (blockAtNextSlot == null)
+                {
+                    yAbove += 1;
+                    break;
+                }
+
+                if (blockAtNextSlot.GetComponent<BlockInfo>().color == colorToCheck)
+                {
+                    slotsWithThisColor.Add(nextSlot);
+                    yAbove += 1;
+                    continue;
+                }
+
+                break;
+            }   
+
+            y = yAbove;
+            if (slotsWithThisColor.Count >= 3)
+            {
+                Debug.Log("SCORE");
+                foreach (GridSlot slot in slotsWithThisColor)
+                {
+                    Debug.Log(slot.coordinate, slot.objectInside);
+                    // TODO SOME BULLSHIT HERE
+                    slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
+                }
+            }
+        }
+
+        Debug.Log($"DONE FOR COLUMN {thisColumn}");
     }
 
     public GridSlot GetBottommostEmptySlot(int x)
