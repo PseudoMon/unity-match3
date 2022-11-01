@@ -320,6 +320,8 @@ MonoBehaviour:
   - {fileID: 7712422966437379665, guid: 0435d3aac35291d47aa17d146a6a9458, type: 3}
   - {fileID: 2883386936769618079, guid: d9b8cbd767e6cec458d75b1555db44b6, type: 3}
   - {fileID: 3807610125038502880, guid: 9f25f88ce98777244a990fdea117d4bd, type: 3}
+  - {fileID: 4903885039036084743, guid: f9df587ba276d6a4c929861e2430f9f5, type: 3}
+  - {fileID: 1600960851747463479, guid: d4adedaca22033a4e834f679d84441c0, type: 3}
   hovererPrefab: {fileID: 5421873787397244390, guid: a6369bdfd1f06b148b6db201aa696c17, type: 3}
   selectorPrefab: {fileID: 1296177971922672682, guid: d248033080d394549b615af5552daf83, type: 3}
 --- !u!1 &519420028
