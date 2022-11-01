@@ -20,6 +20,8 @@ public class BlockBehavior : MonoBehaviour
 
     public GridSlot currentSlot { get; private set; }
 
+    private Coroutine movementCoroutine = null;
+
     void Awake()
     {
         grid = transform.parent.GetComponent<Grid>();
@@ -74,14 +76,16 @@ public class BlockBehavior : MonoBehaviour
 
     public void DestroyBlock()
     {
-        currentSlot.Clear();
+        //currentSlot.Clear();
         Destroy(gameObject);
     }
 
     public void StartFallingTo(GridSlot targetSlot)
     {
-        // Set where to fall towards and disable isKinematic
-        // so this block is affectecd by gravity
+        // If there's a movement coroutine running uhhh
+        if (movementCoroutine != null) {
+            StopCoroutine(movementCoroutine);
+        }
 
         currentSlot = targetSlot;
         rb.isKinematic = false;
@@ -102,7 +106,7 @@ public class BlockBehavior : MonoBehaviour
             yield break;
         }
 
-        StartCoroutine(StopAtFallPosition());
+        movementCoroutine = StartCoroutine(StopAtFallPosition());
     }
 
     public void MoveTowards(GridSlot targetSlot)

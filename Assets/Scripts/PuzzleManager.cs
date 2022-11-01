@@ -67,8 +67,8 @@ public class PuzzleManager : MonoBehaviour
                 slot.objectInside == null || slot.objectInside.GetComponent<Rigidbody2D>().isKinematic
             );
 
-        if (allSlotsAreStill)
-        {
+        // if (allSlotsAreStill)
+        // {
             // Interaction is only possible when no movement is happening
             if (Input.GetButtonDown("Fire2"))
             {
@@ -79,13 +79,18 @@ public class PuzzleManager : MonoBehaviour
             {
                 SelectBlockIfClicked();
             }       
-        }
+        // }
          
+        if (!(gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true)))
+        {
+            gridSlotMachine.CheckForScorers();
+            Debug.Log("NAUR");
+        }
+
+        gridSlotMachine.CheckForDeletion();
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
-
-        gridSlotMachine.CheckForScorers();
     }
 
     void SelectBlockIfClicked()
@@ -138,8 +143,10 @@ public class PuzzleManager : MonoBehaviour
     // Debug function
     void DestroyBlockAtMousePos()
     {
+        var worldMousePosition = 
+            Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hitInfo = Physics2D.Raycast(
-            Camera.main.ScreenToWorldPoint(Input.mousePosition), 
+            worldMousePosition, 
             Vector2.zero
         );
         if (hitInfo.collider)
@@ -147,6 +154,11 @@ public class PuzzleManager : MonoBehaviour
             var clickedObject = hitInfo.collider.gameObject;
             Debug.Log($"HIT SOMETHING {clickedObject}", clickedObject);
             clickedObject.GetComponent<BlockBehavior>().DestroyBlock();
+
+            var augh = grid.WorldToCell(worldMousePosition);
+            gridSlotMachine.GetSlotAtPosition(
+                augh.x, augh.y
+            ).Clear();
         }
     }
 }
@@ -158,7 +170,6 @@ public class GridSlot
     {
         this.x = x;
         this.y = y;
-        isFilled = false;
     }
 
     public int x { get; private set; }
@@ -170,17 +181,17 @@ public class GridSlot
         }
     }
 
-    public bool isFilled { get; private set; }
     private GameObject _objectInside;
     public GameObject objectInside { 
-        get 
-        { 
-            if (isFilled) return _objectInside;
-            else return null; 
-        } 
-
+        get { return _objectInside; } 
         private set { _objectInside = value; }
     }
+
+    public bool isFilled {
+        get { return _objectInside != null; }
+    }
+
+    public bool markedForDeletion { get; set; }
 
     // Note:
     // At the moment, gridslot can contain an object whose .currentSlot
@@ -193,13 +204,12 @@ public class GridSlot
 
     public void FillWith(GameObject thing)
     {
-        isFilled = true;
         objectInside = thing;
     }
 
     public void Clear()
     {
-        isFilled = false;
+        objectInside = null;
     }
 
     public bool IsAdjacentWith(GridSlot otherSlot)
@@ -234,6 +244,23 @@ public class GridSlot
         
         targetSlot.MakeObjectElsewhereFallHere(objectInside);
         Clear();
+    }
+
+    public void DestroyObjectInside()
+    {
+        Debug.Log("WEEWEE", objectInside);
+        markedForDeletion = false;
+        var blockBehavior = objectInside.GetComponent<BlockBehavior>();
+        // blockBehavior.DestroyBlock();
+        blockBehavior.HoverBlock();
+
+        // TODO
+
+    }
+
+    public void MarkForDeletion()
+    {
+        markedForDeletion = true;
     }
 }
 
@@ -284,10 +311,10 @@ public class GridSlotMachine
             if (!slot.isFilled) continue;
 
             var slotBelow = GetSlotAtPosition(slot.x, slot.y - 1);
-            if (!slotBelow.isFilled)
-            {
-                slot.MakeObjectInsideFallTo(slotBelow);
-            }
+            if (slotBelow.isFilled) continue;
+            
+            Debug.Log($"{slotBelow.x} and {slotBelow.y}");
+            slot.MakeObjectInsideFallTo(slotBelow);
         }
     }
 
@@ -298,16 +325,18 @@ public class GridSlotMachine
 
         for (int y = bottomY; y <= topY; y++)
         {
-            CheckForScorers(y, "row");
+            CheckForScorersOneLine(y, "row");
         }
 
         for (int x = leftmostX; x <= rightmostX; x++)
         {
-            CheckForScorers(x, "column");
+            CheckForScorersOneLine(x, "column");
         }
+
+        Debug.Log("NAUR");
     }
 
-    public void CheckForScorers(int staticAxis, string rowOrColumn)
+    public void CheckForScorersOneLine(int staticAxis, string rowOrColumn)
     {
         if (rowOrColumn != "row" && rowOrColumn != "column")
         {
@@ -365,17 +394,40 @@ public class GridSlotMachine
             mobileAxis = nextAxis;
             if (slotsWithThisColor.Count >= 3)
             {
-                Debug.Log("SCORE");
+                //Debug.Log("SCORE");
                 foreach (GridSlot slot in slotsWithThisColor)
                 {
                     // TODO SOME BULLSHIT HERE
-                    Debug.Log(slot.coordinate, slot.objectInside);
-                    //slot.objectInside.GetComponent<BlockBehavior>().DestroyBlock();
+                    // 1. Add to score
+                    // 2. Mark slots for deletion
+                    //Debug.Log(slot.coordinate, slot.objectInside);
+
+                    slot.MarkForDeletion();
                 }
             }
         }
 
         Debug.Log($"SCORER CHECK DONE FOR {rowOrColumn} {staticAxis}");
+    }
+
+    public void CheckForDeletion()
+    {
+        // TODO
+        // this function's fucked up mate
+        
+        // Only delete *one* slot a frame.
+        GridSlot slotToDelete = slots.Find(
+            slot => slot.markedForDeletion == true
+        );
+
+        // No slot marked for deletion? Slot is empty?
+        if (slotToDelete == null || !slotToDelete.isFilled) return;
+        
+        Debug.Log(slotToDelete.objectInside, slotToDelete.objectInside);
+        slotToDelete.markedForDeletion = false;
+        //slotToDelete.objectInside.GetComponent<BlockBehavior>().HoverBlock();
+
+        //slotToDelete.DestroyObjectInside();
     }
 
     public GridSlot GetBottommostEmptySlot(int x)
