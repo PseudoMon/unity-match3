@@ -91,6 +91,17 @@ public class PuzzleManager : MonoBehaviour
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
+
+        // If there's an empty slot on the top row, spawn a new block there
+        List<GridSlot> emptyTopSlots = gridSlotMachine.FindEmptySlotsAtTop();
+        Debug.Log($"WEE {emptyTopSlots.Count}");
+        foreach (var slot in emptyTopSlots)
+        {
+            SpawnBlock(
+                slot, 
+                slot.coordinate + new Vector3Int(0,4,0)
+            );
+        }
     }
 
     void SelectBlockIfClicked()
@@ -443,5 +454,10 @@ public class GridSlotMachine
     public GridSlot GetSlotAtPosition(int x, int y)
     {
         return slots.Find(slot => slot.x == x && slot.y == y);
+    }
+
+    public List<GridSlot> FindEmptySlotsAtTop()
+    {
+        return slots.FindAll(slot => slot.y == topY && !slot.isFilled);
     }
 }
