@@ -79,6 +79,9 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
                 SelectBlockIfClicked();
             }       
         // }
+
+        // Check for empty grid slots and set those above it to fall
+        gridSlotMachine.CheckForFallers();
          
         if (!(gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true)))
         {
@@ -87,12 +90,8 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
 
         gridSlotMachine.CheckForDeletion();
 
-        // Check for empty grid slots and set those above it to fall
-        gridSlotMachine.CheckForFallers();
-
         // If there's an empty slot on the top row, spawn a new block there
         List<GridSlot> emptyTopSlots = gridSlotMachine.FindEmptySlotsAtTop();
-        Debug.Log($"WEE {emptyTopSlots.Count}");
         foreach (var slot in emptyTopSlots)
         {
             SpawnBlock(
@@ -178,7 +177,7 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
     public void OnBeforeSerialize() 
     {
         if (gridSlotMachine == null) return;
-        numberOfSlots = gridSlotMachine.slots.Count;
+        numberOfSlots = gridSlotMachine.slots?.Count ?? 0;
     }
 
     public void OnAfterDeserialize() {}

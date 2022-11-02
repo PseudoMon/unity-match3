@@ -140,11 +140,14 @@ public class BlockBehavior : MonoBehaviour, ISerializationCallbackReceiver
     // Below are for information displayed on the inspector :)
     [SerializeField]
     Vector3Int e_coordinate;
+    [SerializeField]
+    bool e_markedForDeletion;
 
     public void OnBeforeSerialize() 
     {
         if (currentSlot == null) return;
         e_coordinate = new Vector3Int(currentSlot.x, currentSlot.y, 0);
+        e_markedForDeletion = currentSlot.markedForDeletion;
     }
 
     public void OnAfterDeserialize() {}

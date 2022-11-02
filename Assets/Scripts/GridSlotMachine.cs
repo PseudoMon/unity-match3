@@ -31,7 +31,7 @@ public class GridSlot
         get { return _objectInside != null; }
     }
 
-    public bool markedForDeletion { get; set; }
+    public bool markedForDeletion { get; private set; }
 
     // Note:
     // At the moment, gridslot can contain an object whose .currentSlot
@@ -144,11 +144,11 @@ public class GridSlotMachine
         {
             if (slot.y == bottomY) continue;
             if (!slot.isFilled) continue;
+            if (slot.markedForDeletion) continue;
 
             var slotBelow = GetSlotAtPosition(slot.x, slot.y - 1);
             if (slotBelow.isFilled) continue;
             
-            Debug.Log($"{slotBelow.x} and {slotBelow.y}");
             slot.MakeObjectInsideFallTo(slotBelow);
         }
     }
@@ -158,93 +158,87 @@ public class GridSlotMachine
         // Only check for scorers when no block is moving
         if (!allSlotsAreStill) return;
 
-        for (int y = bottomY; y <= topY; y++)
+        // Check if the slot's object has the same color as provided
+        bool HasSameColor(GridSlot nextSlot, string thisColor)
         {
-            CheckForScorersOneLine(y, "row");
-        }
+            if (!nextSlot.isFilled || nextSlot.markedForDeletion)
+                return false;
 
-        for (int x = leftmostX; x <= rightmostX; x++)
-        {
-            CheckForScorersOneLine(x, "column");
-        }
+            string nextColor = 
+                nextSlot.objectInside.GetComponent<BlockInfo>().color;
 
-        Debug.Log(slots.FindAll(slot => slot.markedForDeletion == true).Count);
-        Debug.Log("NAUR");
-    }
-
-    public void CheckForScorersOneLine(int staticAxis, string rowOrColumn)
-    {
-        if (rowOrColumn != "row" && rowOrColumn != "column")
-        {
-            throw new System.ArgumentException(
-                "Parameter rowOrColumn can only be either row or column!"
-            );
-        }
-
-        int mobileAxis = rowOrColumn == "row" ? leftmostX : bottomY;
-        int axisEnd = rowOrColumn == "row" ? rightmostX : topY;
-
-        while (mobileAxis <= axisEnd)
-        {
-            GridSlot thisSlot = rowOrColumn == "row" ? 
-                GetSlotAtPosition(mobileAxis, staticAxis) :
-                GetSlotAtPosition(staticAxis, mobileAxis);
-
-            GameObject blockAtThisSlot = thisSlot.objectInside;
-            if (blockAtThisSlot == null)
+            if (nextColor != thisColor)
             {
-                mobileAxis += 1;
-                continue;
+                return false;
             }
 
+            return true;
+        }
+
+        // In all provided slots, check if they have the same color
+        // Add to the list if they do.
+        // If they don't, break loop i.e. don't bother looking at the rest
+        void CheckForSameColorInAllThese(
+            string thisColor,
+            List<GridSlot> slotsToAdd,
+            IOrderedEnumerable<GridSlot> slotsToCheck
+        ) {
+            foreach (var slotToCheck in slotsToCheck)
+            {
+                if (!HasSameColor(slotToCheck, thisColor)) break;
+                slotsToAdd.Add(slotToCheck);
+            }
+        }
+
+        foreach (GridSlot thisSlot in slots)
+        {
+            if (!thisSlot.isFilled) continue;
+            if (thisSlot.markedForDeletion) continue;
+            // Note that blocks already marked for deletion i.e.
+
             string thisColor = 
-                blockAtThisSlot.GetComponent<BlockInfo>().color;
-            
+                thisSlot.objectInside.GetComponent<BlockInfo>().color;
+
             List<GridSlot> slotsWithThisColor = new List<GridSlot>();
             slotsWithThisColor.Add(thisSlot);
 
-            int nextAxis = mobileAxis + 1;
+            // Check for all slots on the right
+            CheckForSameColorInAllThese(
+                thisColor,
+                slotsWithThisColor,
+                slots.Where(
+                    slot => slot.y == thisSlot.y && slot.x > thisSlot.x
+                ).OrderBy(slot => slot.x)
+            );
 
-            while (nextAxis <= axisEnd)
-            {
-                GridSlot nextSlot = rowOrColumn == "row" ? 
-                    GetSlotAtPosition(nextAxis, staticAxis) :
-                    GetSlotAtPosition(staticAxis, nextAxis);
-                GameObject blockAtNextSlot = nextSlot.objectInside;
-                
-                if (blockAtNextSlot == null)
-                {
-                    nextAxis += 1;
-                    break;
-                }
-
-                if (blockAtNextSlot.GetComponent<BlockInfo>().color == thisColor)
-                {
-                    slotsWithThisColor.Add(nextSlot);
-                    nextAxis += 1;
-                    continue;
-                }
-
-                break;
-            }
-
-            mobileAxis = nextAxis;
             if (slotsWithThisColor.Count >= 3)
             {
-                //Debug.Log("SCORE");
-                foreach (GridSlot slot in slotsWithThisColor)
+                foreach (var slot in slotsWithThisColor)
                 {
-                    // TODO SOME BULLSHIT HERE
-                    // 1. Add to score
-                    // 2. Mark slots for deletion
-                    //Debug.Log(slot.coordinate, slot.objectInside);
+                    slot.MarkForDeletion();
+                }
+            }
 
+            slotsWithThisColor.Clear();
+            slotsWithThisColor.Add(thisSlot);
+
+            // Check for all slots above
+            CheckForSameColorInAllThese(
+                thisColor,
+                slotsWithThisColor,
+                slots.Where(
+                    slot => slot.x == thisSlot.x && slot.y > thisSlot.y
+                ).OrderBy(slot => slot.y)
+            );
+
+            if (slotsWithThisColor.Count >= 3)
+            {
+                foreach (var slot in slotsWithThisColor)
+                {
                     slot.MarkForDeletion();
                 }
             }
         }
-
-        Debug.Log($"SCORER CHECK DONE FOR {rowOrColumn} {staticAxis}");
     }
 
     public void CheckForDeletion()
