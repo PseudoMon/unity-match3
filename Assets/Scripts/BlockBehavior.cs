@@ -112,7 +112,6 @@ public class BlockBehavior : MonoBehaviour
         Vector2 movementDirection = 
             (stopPosition - currentPos).normalized;
 
-        gameObject.layer = LayerMask.NameToLayer("Free Movement");
         rb.isKinematic = false;
         rb.gravityScale = 0f;
         rb.AddForce(movementDirection * 500);
@@ -132,7 +131,6 @@ public class BlockBehavior : MonoBehaviour
             rb.gravityScale = 1f;
             rb.velocity = Vector2.zero;
             rb.MovePosition(stopPosition);
-            gameObject.layer = LayerMask.NameToLayer("Default");
             yield break;
         }
 

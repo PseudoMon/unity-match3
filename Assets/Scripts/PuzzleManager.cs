@@ -83,7 +83,7 @@ public class PuzzleManager : MonoBehaviour
          
         if (!(gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true)))
         {
-            // gridSlotMachine.CheckForScorers();
+            gridSlotMachine.CheckForScorers();
         }
 
         gridSlotMachine.CheckForDeletion();
@@ -338,6 +338,7 @@ public class GridSlotMachine
             CheckForScorersOneLine(x, "column");
         }
 
+        Debug.Log(slots.FindAll(slot => slot.markedForDeletion == true).Count);
         Debug.Log("NAUR");
     }
 
@@ -345,7 +346,7 @@ public class GridSlotMachine
     {
         if (rowOrColumn != "row" && rowOrColumn != "column")
         {
-            throw new ArgumentException(
+            throw new System.ArgumentException(
                 "Parameter rowOrColumn can only be either row or column!"
             );
         }
