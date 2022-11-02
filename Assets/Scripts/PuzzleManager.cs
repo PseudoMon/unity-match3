@@ -83,8 +83,7 @@ public class PuzzleManager : MonoBehaviour
          
         if (!(gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true)))
         {
-            gridSlotMachine.CheckForScorers();
-            Debug.Log("NAUR");
+            // gridSlotMachine.CheckForScorers();
         }
 
         gridSlotMachine.CheckForDeletion();
@@ -164,12 +163,12 @@ public class PuzzleManager : MonoBehaviour
         {
             var clickedObject = hitInfo.collider.gameObject;
             Debug.Log($"HIT SOMETHING {clickedObject}", clickedObject);
-            clickedObject.GetComponent<BlockBehavior>().DestroyBlock();
+            //clickedObject.GetComponent<BlockBehavior>().DestroyBlock();
 
             var augh = grid.WorldToCell(worldMousePosition);
             gridSlotMachine.GetSlotAtPosition(
                 augh.x, augh.y
-            ).Clear();
+            ).MarkForDeletion();
         }
     }
 }
@@ -259,14 +258,9 @@ public class GridSlot
 
     public void DestroyObjectInside()
     {
-        Debug.Log("WEEWEE", objectInside);
+        GameObject.Destroy(objectInside);
+        Clear();
         markedForDeletion = false;
-        var blockBehavior = objectInside.GetComponent<BlockBehavior>();
-        // blockBehavior.DestroyBlock();
-        blockBehavior.HoverBlock();
-
-        // TODO
-
     }
 
     public void MarkForDeletion()
@@ -351,8 +345,9 @@ public class GridSlotMachine
     {
         if (rowOrColumn != "row" && rowOrColumn != "column")
         {
-            // TODO: Throw error
-            return;
+            throw new ArgumentException(
+                "Parameter rowOrColumn can only be either row or column!"
+            );
         }
 
         int mobileAxis = rowOrColumn == "row" ? leftmostX : bottomY;
@@ -423,10 +418,7 @@ public class GridSlotMachine
 
     public void CheckForDeletion()
     {
-        // TODO
-        // this function's fucked up mate
-        
-        // Only delete *one* slot a frame.
+        // Only delete *one* slot a frame, to limit things fucking up
         GridSlot slotToDelete = slots.Find(
             slot => slot.markedForDeletion == true
         );
@@ -435,10 +427,7 @@ public class GridSlotMachine
         if (slotToDelete == null || !slotToDelete.isFilled) return;
         
         Debug.Log(slotToDelete.objectInside, slotToDelete.objectInside);
-        slotToDelete.markedForDeletion = false;
-        //slotToDelete.objectInside.GetComponent<BlockBehavior>().HoverBlock();
-
-        //slotToDelete.DestroyObjectInside();
+        slotToDelete.DestroyObjectInside();
     }
 
     public GridSlot GetBottommostEmptySlot(int x)

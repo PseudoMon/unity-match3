@@ -74,12 +74,6 @@ public class BlockBehavior : MonoBehaviour
         isHovered = false;
     }
 
-    public void DestroyBlock()
-    {
-        //currentSlot.Clear();
-        Destroy(gameObject);
-    }
-
     public void StartFallingTo(GridSlot targetSlot)
     {
         // If there's a movement coroutine running uhhh
