@@ -61,14 +61,11 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
     {
         ResetOnR();
 
-        bool allSlotsAreStill =
-            gridSlotMachine.slots.TrueForAll(slot => 
-                slot.objectInside == null || slot.objectInside.GetComponent<Rigidbody2D>().isKinematic
-            );
-
-        // if (allSlotsAreStill)
-        // {
+        if (gridSlotMachine.allSlotsAreStill)
+        {
             // Interaction is only possible when no movement is happening
+            // There's no technical problem with it, it's just
+            // better user experience.
             if (Input.GetButtonDown("Fire2"))
             {
                 DestroyBlockAtMousePos();
@@ -78,16 +75,18 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
             {
                 SelectBlockIfClicked();
             }       
-        // }
+        }
 
         // Check for empty grid slots and set those above it to fall
         gridSlotMachine.CheckForFallers();
          
+        // Check for 3 colour matches in a row/column
         if (!(gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true)))
         {
             gridSlotMachine.CheckForScorers();
         }
 
+        // Check for slots marked for deletions and destroy their content
         gridSlotMachine.CheckForDeletion();
 
         // If there's an empty slot on the top row, spawn a new block there
@@ -113,6 +112,8 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
             var clickedObject = hitInfo.collider.gameObject;
             var clickedBlock = 
                 clickedObject.GetComponent<BlockBehavior>();
+
+            if (!clickedBlock) return; // not a block!
 
             if (BlockIsNextToSelected(clickedBlock))
             {
