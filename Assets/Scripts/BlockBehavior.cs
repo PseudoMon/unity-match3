@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockBehavior : MonoBehaviour
+public class BlockBehavior : MonoBehaviour, ISerializationCallbackReceiver
 {
     private Grid grid;
     private Rigidbody2D rb;
@@ -136,4 +136,16 @@ public class BlockBehavior : MonoBehaviour
 
         StartCoroutine(StopAtTargetPos());
     }
+
+    // Below are for information displayed on the inspector :)
+    [SerializeField]
+    Vector3Int e_coordinate;
+
+    public void OnBeforeSerialize() 
+    {
+        if (currentSlot == null) return;
+        e_coordinate = new Vector3Int(currentSlot.x, currentSlot.y, 0);
+    }
+
+    public void OnAfterDeserialize() {}
 }
