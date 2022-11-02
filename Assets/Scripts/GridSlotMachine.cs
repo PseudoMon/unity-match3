@@ -97,6 +97,19 @@ public class GridSlot
     {
         markedForDeletion = true;
     }
+
+    public void StraightUpReplace(GameObject newObject)
+    {
+        // Destroy the object inside and replace it with
+        // another object with identical position and speed
+        // and sets its fall position to this slot
+
+        newObject.transform.position = objectInside.transform.position;
+        newObject.GetComponent<Rigidbody2D>().velocity = objectInside.GetComponent<Rigidbody2D>().velocity;
+
+        DestroyObjectInside();
+        MakeObjectElsewhereFallHere(newObject);
+    }
 }
 
 [System.Serializable]
@@ -153,10 +166,10 @@ public class GridSlotMachine
         }
     }
 
-    public void CheckForScorers()
+    public void CheckForScorers(bool initMode = false)
     {
         // Only check for scorers when no block is moving
-        if (!allSlotsAreStill) return;
+        if (!allSlotsAreStill && !initMode) return;
 
         // Check if the slot's object has the same color as provided
         bool HasSameColor(GridSlot nextSlot, string thisColor)

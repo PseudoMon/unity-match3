@@ -24,6 +24,11 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
         {
             SpawnRow();
         }
+
+        do {
+            ReplaceDeletedBlockWithAnother();
+            gridSlotMachine.CheckForScorers(true);
+        } while (gridSlotMachine.slots.Exists(slot => slot.markedForDeletion == true));
     }
 
     void SpawnRow()
@@ -53,8 +58,40 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
         newBlockBehavior.selectorPrefab = selectorPrefab;
 
         targetGridSlot.MakeObjectElsewhereFallHere(newBlock);
+    }
 
-        newBlock.GetComponent<Rigidbody2D>().WakeUp();
+    GameObject SpawnBlock()
+    {
+        // Spawning without any specified slot or position
+        // Will return the spawned block
+        GameObject blockPrefab = blockPrefabs[Random.Range(0, blockPrefabs.Length)];
+        GameObject newBlock = Instantiate(blockPrefab, transform);
+
+        var newBlockBehavior = newBlock.AddComponent<BlockBehavior>();
+        newBlockBehavior.hovererPrefab = hovererPrefab;
+        newBlockBehavior.selectorPrefab = selectorPrefab;
+
+        return newBlock;
+    }
+
+    void ReplaceDeletedBlockWithAnother()
+    {
+        // Should only be used on initialiation (e.g. removing
+        // matches that happen before the game even start).
+        // For all slots marked for deletion,
+        // quickly replace its content with a new block, spawned
+        // at the same position, with the same velocity.
+        // Doing this should unmark it for deletion too.
+
+        List<GridSlot> slotsToDelete = gridSlotMachine.slots.FindAll(
+            slot => slot.markedForDeletion == true
+        );
+
+        foreach (GridSlot slot in slotsToDelete)
+        {
+            var newBlock = SpawnBlock();
+            slot.StraightUpReplace(newBlock);
+        }
     }
 
     void Update()

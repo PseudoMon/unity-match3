@@ -76,7 +76,7 @@ public class BlockBehavior : MonoBehaviour, ISerializationCallbackReceiver
 
     public void StartFallingTo(GridSlot targetSlot)
     {
-        // If there's a movement coroutine running uhhh
+        // If there's a movement coroutine already running, stop it
         if (movementCoroutine != null) {
             StopCoroutine(movementCoroutine);
         }
