@@ -524,6 +524,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
+  currentScoreTreshhold: 100
+  nextLevelButtonVisible: 0
+  starTemplate: {fileID: 9197481963319205126, guid: bcae4bd7ae8c4b940b5483337ce6b882, type: 3}
+  starScore: 0
 --- !u!1 &1977661052
 GameObject:
   m_ObjectHideFlags: 0

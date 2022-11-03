@@ -13,7 +13,8 @@ public class GameplayUI : MonoBehaviour
     public bool nextLevelButtonVisible = false;
     public Button nextLevelButton;
 
-    public int starScore = 0;
+    public VisualTreeAsset starTemplate;
+    private int starScore = 3;
 
     void OnEnable()
     {
@@ -21,6 +22,15 @@ public class GameplayUI : MonoBehaviour
         scoreLabel = root.Query<Label>("ScoreNumber").First();
         scoreProgress = root.Query<ProgressBar>("ScoreProgress").First();
         nextLevelButton = root.Query<Button>("NextLevelButton").First();
+
+        VisualElement star = starTemplate.CloneTree();
+        VisualElement holder = root.Query<VisualElement>("StarHolder");
+
+        for (int i = 0; i < starScore; i++)
+        {
+            starTemplate.CloneTree(holder);
+        }
+        
 
         //scoreProgress.highValue = currentScoreTreshhold;
 
@@ -60,7 +70,7 @@ public class GameplayUI : MonoBehaviour
     public void StartNewLevel(ClickEvent evt)
     {
         Debug.Log("SHOULD START SOMETHING");
-        // starScore += 1;
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        starScore += 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
