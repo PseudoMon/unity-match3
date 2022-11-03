@@ -26,12 +26,15 @@ public class GameplayUI : MonoBehaviour
         VisualElement star = starTemplate.CloneTree();
         VisualElement holder = root.Query<VisualElement>("StarHolder");
 
-        for (int i = 0; i < starScore; i++)
+        for (int i = 0; i < PersistentData.Data.starScore; i++)
         {
             starTemplate.CloneTree(holder);
         }
         
+        // Todo: set high value to currentScoreTreshhold
+        // change treshhold according to the number of star score
 
+        // at the moment, the code below does not work:
         //scoreProgress.highValue = currentScoreTreshhold;
 
         nextLevelButton.RegisterCallback<ClickEvent>(StartNewLevel);
@@ -69,8 +72,7 @@ public class GameplayUI : MonoBehaviour
 
     public void StartNewLevel(ClickEvent evt)
     {
-        Debug.Log("SHOULD START SOMETHING");
-        starScore += 1;
+        PersistentData.Data.AddStar();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
