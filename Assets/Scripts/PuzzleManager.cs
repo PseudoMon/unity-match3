@@ -13,12 +13,16 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
     private GridSlotMachine gridSlotMachine;
 
     private BlockBehavior selectedBlock;
+
+    public GameObject gameplayUI;
+    private GameplayUI UIComponent;
     
     // Start is called before the first frame update
     void Start()
     {
+        UIComponent = gameplayUI.GetComponent<GameplayUI>();
         grid = GetComponent<Grid>();
-        gridSlotMachine = new GridSlotMachine(10, 10, -5, -5);
+        gridSlotMachine = new GridSlotMachine(10, 10, -5, -5, UIComponent);
 
         for (int y = 4; y < 4 + 10; y++)
         {
@@ -159,6 +163,7 @@ public class PuzzleManager : MonoBehaviour, ISerializationCallbackReceiver
                 selectedBlock.UnselectBlock();
                 selectedBlock.currentSlot.SwapObjectInsideWithObjectInSlot(clickedBlock.currentSlot);
                 selectedBlock = null;
+                UIComponent.ReduceScore();
             }
             else {
                 clickedBlock.SelectBlock();

@@ -115,7 +115,7 @@ public class GridSlot
 [System.Serializable]
 public class GridSlotMachine
 {
-    public GridSlotMachine(int xlength, int ylength, int xstart, int ystart)
+    public GridSlotMachine(int xlength, int ylength, int xstart, int ystart, GameplayUI UI)
     {
         slots = new List<GridSlot>();
         leftmostX = xstart;
@@ -130,6 +130,8 @@ public class GridSlotMachine
                 slots.Add(new GridSlot(x, y));
             }
         }
+
+        this.UI = UI;
     }
 
     public List<GridSlot> slots { get; private set; }
@@ -146,6 +148,8 @@ public class GridSlotMachine
             );
         }
     }
+
+    public GameplayUI UI { get; private set; }
 
     public void CheckForFallers()
     {
@@ -228,6 +232,7 @@ public class GridSlotMachine
             {
                 foreach (var slot in slotsWithThisColor)
                 {
+                    if (!initMode) UI.AddScore();
                     slot.MarkForDeletion();
                 }
             }
@@ -248,6 +253,7 @@ public class GridSlotMachine
             {
                 foreach (var slot in slotsWithThisColor)
                 {
+                    if (!initMode) UI.AddScore();
                     slot.MarkForDeletion();
                 }
             }
@@ -264,7 +270,6 @@ public class GridSlotMachine
         // No slot marked for deletion? Slot is empty?
         if (slotToDelete == null || !slotToDelete.isFilled) return;
         
-        Debug.Log(slotToDelete.objectInside, slotToDelete.objectInside);
         slotToDelete.DestroyObjectInside();
     }
 
