@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class GameplayUI : MonoBehaviour
 {
-    [SerializeField]
-    private int currentScoreTreshhold = 50;
+    private int currentScoreTreshhold;
 
     private int currentScore = 0;
     
     private Label scoreLabel;
     private ProgressBar scoreProgress;
     private Button nextLevelButton;
+    private VisualElement starHolder;
     
     [SerializeField]
     private VisualTreeAsset starTemplate;
@@ -25,23 +25,26 @@ public class GameplayUI : MonoBehaviour
         scoreProgress = root.Query<ProgressBar>("ScoreProgress").First();
         nextLevelButton = root.Query<Button>("NextLevelButton").First();
         Button resetStarButton = root.Query<Button>("ResetStarButton").First();
-
-        scoreProgress.highValue = currentScoreTreshhold;
+        Button quitButton = root.Query<Button>("QuitButton").First();
 
         nextLevelButton.RegisterCallback<ClickEvent>(StartNewLevel);
         resetStarButton.RegisterCallback<ClickEvent>(ResetStarScore);
+        quitButton.RegisterCallback<ClickEvent>(QuitGame);
     }
 
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
         VisualElement star = starTemplate.CloneTree();
-        VisualElement holder = root.Query<VisualElement>("StarHolder");
+        starHolder = root.Query<VisualElement>("StarHolder");
 
         for (int i = 0; i < PersistentData.Data.starScore; i++)
         {
-            starTemplate.CloneTree(holder);
+            starTemplate.CloneTree(starHolder);
         }
+
+        currentScoreTreshhold = PersistentData.Data.scoreTreshhold;
+        scoreProgress.highValue = currentScoreTreshhold;
     }
 
     void Update()
@@ -62,15 +65,18 @@ public class GameplayUI : MonoBehaviour
 
     }
 
-    public void AddScore(int score = 2)
+    public void AddScore()
     {
-        currentScore += score;
+        int scoreAdder = PersistentData.Data.scoreAdder;
+        currentScore += scoreAdder;
     }
 
-    public void ReduceScore(int score = 2)
+    public void ReduceScore()
     {
-        if (currentScore - 1 <= 0) currentScore = 0;
-        else currentScore -= score;
+        int scoreReducer = PersistentData.Data.scoreReducer;
+        // Can't go lower than 0
+        if (currentScore - scoreReducer <= 0) currentScore = 0;
+        else currentScore -= scoreReducer;
     }
 
     public void StartNewLevel(ClickEvent evt)
@@ -82,5 +88,14 @@ public class GameplayUI : MonoBehaviour
     public void ResetStarScore(ClickEvent evt)
     {
         PersistentData.Data.ResetStar();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame(ClickEvent evt)
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        Application.Quit();
     }
 }
