@@ -6,15 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class GameplayUI : MonoBehaviour
 {
-    public int currentScore = 0;
-    public int currentScoreTreshhold = 100;
-    public Label scoreLabel;
-    public ProgressBar scoreProgress;
-    public bool nextLevelButtonVisible = false;
-    public Button nextLevelButton;
+    [SerializeField]
+    private int currentScoreTreshhold = 50;
 
-    public VisualTreeAsset starTemplate;
-    private int starScore = 3;
+    private int currentScore = 0;
+    
+    private Label scoreLabel;
+    private ProgressBar scoreProgress;
+    private Button nextLevelButton;
+    
+    [SerializeField]
+    private VisualTreeAsset starTemplate;
 
     void OnEnable()
     {
@@ -22,7 +24,17 @@ public class GameplayUI : MonoBehaviour
         scoreLabel = root.Query<Label>("ScoreNumber").First();
         scoreProgress = root.Query<ProgressBar>("ScoreProgress").First();
         nextLevelButton = root.Query<Button>("NextLevelButton").First();
+        Button resetStarButton = root.Query<Button>("ResetStarButton").First();
 
+        scoreProgress.highValue = currentScoreTreshhold;
+
+        nextLevelButton.RegisterCallback<ClickEvent>(StartNewLevel);
+        resetStarButton.RegisterCallback<ClickEvent>(ResetStarScore);
+    }
+
+    void Start()
+    {
+        var root = GetComponent<UIDocument>().rootVisualElement;
         VisualElement star = starTemplate.CloneTree();
         VisualElement holder = root.Query<VisualElement>("StarHolder");
 
@@ -30,14 +42,6 @@ public class GameplayUI : MonoBehaviour
         {
             starTemplate.CloneTree(holder);
         }
-        
-        // Todo: set high value to currentScoreTreshhold
-        // change treshhold according to the number of star score
-
-        // at the moment, the code below does not work:
-        //scoreProgress.highValue = currentScoreTreshhold;
-
-        nextLevelButton.RegisterCallback<ClickEvent>(StartNewLevel);
     }
 
     void Update()
@@ -54,7 +58,6 @@ public class GameplayUI : MonoBehaviour
         if (currentScore > currentScoreTreshhold)
         {
             nextLevelButton.style.display = DisplayStyle.Flex;
-            nextLevelButtonVisible = true;
         }
 
     }
@@ -74,5 +77,10 @@ public class GameplayUI : MonoBehaviour
     {
         PersistentData.Data.AddStar();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ResetStarScore(ClickEvent evt)
+    {
+        PersistentData.Data.ResetStar();
     }
 }
